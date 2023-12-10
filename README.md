@@ -5,6 +5,22 @@ IT Project Management - Final Project
 
 ```bash  
 .
+├── Code
+│   ├── 6-Data-Provision uc1-6.ipynb  # sophia 
+│   ├── 6-Data-Provision-uc7-13.ipynb # eileen 
+│   ├── 6-Data-Provision.ipynb
+│   ├── 6-Data-Provision_uc15-19.ipynb # pei 
+│   ├── Predict_Salary.ipynb  # machine learning by all 
+│   └── Predict_Salary2.ipynb
+├── data
+│   ├── model
+│   ├── ds_salaries.csv  # original dataset
+│   ├── ds_salaries_cleaned.csv # cleaned dataset 
+│   └── uc1.csv
+├── README.md
+├── data-looks.ipynb
+└── data-science-salaries.ipynb
+
 4 directories, 12 files
 ```
 # test-sophia
