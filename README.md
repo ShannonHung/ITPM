@@ -1,6 +1,30 @@
 # ITPM
 IT Project Management - Final Project
 
+# About Project 
+
+```bash  
+.
+├── Code
+│   ├── 6-Data-Provision uc1-6.ipynb 
+│   ├── 6-Data-Provision-uc7-13.ipynb
+│   ├── 6-Data-Provision.ipynb
+│   ├── 6-Data-Provision_uc15-19.ipynb
+│   ├── Predict_Salary.ipynb  # machine learning by all 
+│   └── Predict_Salary2.ipynb
+├── data
+│   ├── model
+│   ├── ds_salaries.csv  # original dataset
+│   ├── ds_salaries_cleaned.csv # cleaned dataset 
+│   └── uc1.csv
+├── README.md
+├── data-looks.ipynb
+└── data-science-salaries.ipynb
+
+4 directories, 12 files
+```
+
+
 # About Dataset
 - Source: [Data Science Salaries 2023 💸](https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023/data)
 Data Science Job Salaries Dataset contains 11 columns, each are:
