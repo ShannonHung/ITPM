@@ -6,6 +6,8 @@ IT Project Management - Final Project
 ```bash  
 .
 ├── Code
+│   ├── backend
+│   │   └── app.ipynb # backend code
 │   ├── 6-Data-Provision uc1-19.ipynb  # All of use case 
 │   ├── Predict_Salary.ipynb  # predict salary amount
 │   └── Predict_Salary_level.ipynb # predict salary level 
@@ -19,6 +21,19 @@ IT Project Management - Final Project
 
 4 directories, 12 files
 ```
+
+# Restful API 
+**Before running the following command, please make sure you have installed Docker on your machine.**
+
+Please run the following command to build the image and run the container.
+```bash
+cd Code/backend
+docker build -t salary-prediction:lastest .
+docker run -d -p 5001:5000 salary-prediction:lastest
+```
+
+You can click the following button to test the API in Postman.
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/12377932-08167c1a-c3a5-42fb-acb6-d913245ed6d4?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D12377932-08167c1a-c3a5-42fb-acb6-d913245ed6d4%26entityType%3Dcollection%26workspaceId%3D316e139b-7429-455d-895a-00c0ecfe3066)
 
 # About Dataset
 - Source: [Data Science Salaries 2023 💸](https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023/data)
