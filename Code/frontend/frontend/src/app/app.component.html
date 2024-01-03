@@ -1,0 +1,126 @@
+<nb-layout>
+
+  <nb-layout-header fixed>
+    <div class="position-absolute top-50 start-50 translate-middle">
+      <h2>Salary Prediction</h2>
+    </div>
+  </nb-layout-header>
+
+  <nb-layout-column>
+    <div class="content row" role="main">
+      <div class="col-8 row">
+        <nb-card accent="info">
+          <nb-card-header>Give the value for prediction</nb-card-header>
+          <nb-card-body>
+            <div class="row">
+              <div class="col-6">
+                <div class="col-12 m-2">
+                  <label class="label col-12">Working Year</label>
+                  <nb-select class="col-12" fullWidth [selected]="jobData.work_year" ([ngModel])="jobData.work_year">
+                    <nb-option *ngFor="let year of years" [value]="year">
+                      {{ year }}
+                    </nb-option>
+                  </nb-select>
+                </div>
+
+                <div class="col-12 m-2">
+                  <label class="label col-12">Experience Level</label>
+                  <nb-select class="col-12" fullWidth [selected]="jobData.experience_level"
+                    ([ngModel])="jobData.experience_level">
+                    <nb-option *ngFor="let level of levels" [value]="level">
+                      {{ level }}
+                    </nb-option>
+                  </nb-select>
+                </div>
+
+                <div class="col-12 m-2">
+                  <label class="label col-12">Employment Type</label>
+                  <nb-select class="col-12" fullWidth [selected]="jobData.employment_type"
+                    ([ngModel])="jobData.employment_type">
+                    <nb-option *ngFor="let type of emp_types" [value]="type">
+                      {{ type }}
+                    </nb-option>
+                  </nb-select>
+                </div>
+
+                <div class="col-12 m-2">
+                  <label class="label col-12">Job Title</label>
+                  <nb-select class="col-12" fullWidth [selected]="jobData.job_title" ([ngModel])="jobData.job_title">
+                    <nb-option *ngFor="let job of job_titles" [value]="job">
+                      {{ job }}
+                    </nb-option>
+                  </nb-select>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="col-12 m-2">
+                  <label class="label col-12">Employee Residence</label>
+                  <nb-select fullWidth class="col-12" [selected]="jobData.employee_residence"
+                    ([ngModel])="jobData.employee_residence">
+                    <nb-option *ngFor="let region of regions" [value]="region">
+                      {{ region }}
+                    </nb-option>
+                  </nb-select>
+                </div>
+
+                <div class="col-12 m-2">
+                  <label class="label col-12">Remote Ratio</label>
+                  <input type="number" step="5" min="0" max="100" nbInput fullWidth [(ngModel)]="jobData.remote_ratio">
+                </div>
+
+                <div class="col-12 m-2">
+                  <label class="label col-12">Company Location</label>
+                  <nb-select class="col-12" fullWidth [selected]="jobData.company_location"
+                    ([ngModel])="jobData.company_location">
+                    <nb-option *ngFor="let location of locations" [value]="location">
+                      {{ location }}
+                    </nb-option>
+                  </nb-select>
+                </div>
+
+                <div class="col-12 m-2">
+                  <label class="label col-12">Company Size</label>
+                  <nb-select class="col-12" fullWidth [selected]="jobData.company_size"
+                    ([ngModel])="jobData.company_size">
+                    <nb-option *ngFor="let size of sizes" [value]="size">
+                      {{ size }}
+                    </nb-option>
+                  </nb-select>
+                </div>
+
+              </div>
+
+              <div class="col-12">
+                <button nbButton fullWidth class="m-2" status="primary">Predict</button>
+              </div>
+            </div>
+
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div class="col-4">
+        <div class="col-12">
+          <nb-card accent="warning">
+            <nb-card-header>Prediction Result</nb-card-header>
+            <nb-card-body>
+              <p class="bold">Level 1: 0.00 - 95000.00 USD</p>
+              <p class="bold">Level 2: 95000.00 - 135000.00 USD</p>
+              <p class="bold">Level 3: 120000.00 - 175000.00 USD</p>
+              <p class="bold">Level 4: > 175000.00 USD</p>
+              <button nbButton fullWidth status="warning">Result: Level 1</button>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </div>
+
+    </div>
+    <router-outlet></router-outlet>
+
+  </nb-layout-column>
+
+  <nb-layout-footer fixed>
+    <!-- Insert footer here -->
+  </nb-layout-footer>
+
+</nb-layout>
