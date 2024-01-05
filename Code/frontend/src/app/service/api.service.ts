@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { JobInput } from '../data/input';
-import { environment } from '../environments/environment';
 import { HttpService } from './http.service';
 
 @Injectable()

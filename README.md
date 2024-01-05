@@ -22,18 +22,16 @@ IT Project Management - Final Project
 4 directories, 12 files
 ```
 
-# Restful API 
+# Start the project 
 **Before running the following command, please make sure you have installed Docker on your machine.**
 
 Please run the following command to build the image and run the container.
 ```bash
-cd Code/backend
-docker build -t salary-prediction:lastest .
-docker run -d -p 5001:5000 salary-prediction:lastest
+docker pull shannonhung/itpm-frontend:1.0.0
+docker pull shannonhung/salary-prediction
+docker run -d -p 4200:4200 shannonhung/itpm-frontend:1.0.0
+docker run -d -p 5001:5000 shannonhung/salary-prediction:1.0.0
 ```
-
-You can click the following button to test the API in Postman.
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/12377932-08167c1a-c3a5-42fb-acb6-d913245ed6d4?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D12377932-08167c1a-c3a5-42fb-acb6-d913245ed6d4%26entityType%3Dcollection%26workspaceId%3D316e139b-7429-455d-895a-00c0ecfe3066)
 
 # About Dataset
 - Source: [Data Science Salaries 2023 💸](https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023/data)

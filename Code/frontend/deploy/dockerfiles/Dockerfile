@@ -1,9 +1,9 @@
 # ref : https://mherman.org/blog/dockerizing-an-angular-app/
 # base image
-FROM node:12.14.0-slim as build
+FROM node:16-slim as build
 
 # install git
-RUN apt update
+# RUN apt update
 # RUN apt install -y git
 
 # set working directory
@@ -21,17 +21,17 @@ RUN npm install
 COPY . /usr/src/app
 
 # build project
-RUN ng build --configuration=production
+RUN ng build
 
 # run nginx
 FROM nginx:alpine
 
-COPY --from=build /usr/src/app/dist/kioxia-frontend /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/frontend /usr/share/nginx/html
 
 COPY ./deploy/config/nginx.conf /etc/nginx/conf.d/default.conf
 
 # prod port
-EXPOSE 5200
+EXPOSE 4200
 
 # start app
-# CMD ["ng","serve","--host", "0.0.0.0", "--port", "5200", "--poll"]
+# CMD ["ng","serve","--host", "0.0.0.0", "--port", "4200", "--poll"]
