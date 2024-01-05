@@ -33,6 +33,8 @@ docker run -d -p 4200:4200 shannonhung/itpm-frontend:1.0.0
 docker run -d -p 5001:5001 shannonhung/salary-prediction:1.0.0
 ```
 
+Open your browser and go to `http://localhost:4200/` to see the frontend.
+
 # About Dataset
 - Source: [Data Science Salaries 2023 💸](https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023/data)
 Data Science Job Salaries Dataset contains 11 columns, each are:
