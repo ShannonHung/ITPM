@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { NbToastrService } from '@nebular/theme';
 import { JobInput } from './data/input';
+import { ApiService } from './service/api.service';
 
 @Component({
   selector: 'app-root',
@@ -185,11 +187,27 @@ export class AppComponent {
   ];
 
   sizes = ['L', 'S', 'M'];
-  constructor() {
+  isAnalysis = false;
+  ans = -1;
+
+  constructor(private api: ApiService, private toastrService: NbToastrService) {
     console.log('constructor', this.jobData);
   }
 
   ngOnInit(): void {
     console.log('ngOninit', this.jobData);
+  }
+
+  onClickBtn() {
+    // this.isAnalysis = true;
+    console.log('onClickBtn', this.jobData);
+    this.api.getSalaryPredict(this.jobData).subscribe((res) => {
+      this.toastrService.success(
+        'Success',
+        'Salary Prediction' + (res.level + 1)
+      );
+      this.isAnalysis = false;
+      this.ans = res.level + 1;
+    });
   }
 }
