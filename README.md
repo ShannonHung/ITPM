@@ -30,7 +30,7 @@ Please run the following command to build the image and run the container.
 docker pull shannonhung/itpm-frontend:1.0.0
 docker pull shannonhung/salary-prediction:1.0.0
 docker run -d -p 4200:4200 shannonhung/itpm-frontend:1.0.0
-docker run -d -p 5001:5000 shannonhung/salary-prediction:1.0.0
+docker run -d -p 5001:5001 shannonhung/salary-prediction:1.0.0
 ```
 
 # About Dataset

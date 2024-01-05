@@ -27,21 +27,6 @@ while [[ "$#" -gt 0 ]]; do
                 echo "Error! Please input 'en' or 'zh' or 'all'!"
             fi
             ;;
-        s | show)
-            lang=$2
-            if [ "$lang" = "en" ] || [ "$lang" = "zh" ]; then
-                cp "config-$lang.yml" _config.yml
-                cp "config-butterfly-$lang.yml" "_config.butterfly.yml"
-                npm run show
-                echo "Running npm show!"
-            else
-                echo "Error! Please use './run.sh show en' or './run.sh show zh'!"
-            fi
-            shift # Move to the next argument after 'show'
-            ;;
-        *)
-            exit 1
-            ;;
     esac
     shift
 done
