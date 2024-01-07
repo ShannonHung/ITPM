@@ -1,3 +1,9 @@
+
+```
+8. Deployment - Step 12. Apply: 
+Identified opportunities for ensuring applicability should be taken into account during the professional provision. We can adjust and optimize the model through user feedback to ensure that the model meets user needs. At the same time, we also need to ensure that the design of the front-end and back-end allows users to operate and use it conveniently.
+```
+
 # Frontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.18.

@@ -1,18 +1,17 @@
-# 使用官方的 Python 基礎映像
+# 8 Deployment - 13. Provide: 
+# Analysis artifacts that arise from the professional provision should be carried over into deployment in a suitable form. 
+# Write your project into a Dockerfile and build it. This way, users can easily pull the application from any environment and test it locally. 
+# This approach not only ensures the applicability of your project in a variety of environments, but also makes it easier for users to use and test your project.
+
 FROM python:3.11-slim
 
-# 設置工作目錄
 WORKDIR /app
 
-# 複製應用所需的文件
 COPY /backend/app.py /app
 COPY /backend/data /app/data
 
-# 安裝 Flask 和 Flask-RESTful 以及您的應用依賴
 RUN pip install Flask Flask-RESTful pandas numpy torch scikit-learn flask_cors
 
-# 暴露容器將會使用的端口號
 EXPOSE 5001
 
-# 定義容器啟動時執行的命令
 CMD ["python", "app.py"]

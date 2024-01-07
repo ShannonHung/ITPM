@@ -10,7 +10,13 @@ export class ApiService {
   constructor(private http: HttpService) {
     this.api = environment.api;
   }
-
+  /**
+   * 8 Deployment - Step 11.
+   * Check: During the professional provision, the applicability of the analysis must be checked by the target group.
+   * We display the model's prediction results on the front end in a way that is easy to understand and operate.
+   * @param data
+   * @returns
+   */
   getSalaryPredict(data: JobInput) {
     console.log('getSalaryPredict api called:', data);
     return this.http.post(`${this.api}/predict`, data);
