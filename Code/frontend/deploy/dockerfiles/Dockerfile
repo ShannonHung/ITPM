@@ -1,3 +1,8 @@
+# 8 Deployment - 13. Provide: 
+# Analysis artifacts that arise from the professional provision should be carried over into deployment in a suitable form. 
+# Write your project into a Dockerfile and build it. This way, users can easily pull the application from any environment and test it locally. 
+# This approach not only ensures the applicability of your project in a variety of environments, but also makes it easier for users to use and test your project.
+
 # ref : https://mherman.org/blog/dockerizing-an-angular-app/
 # base image
 FROM node:16-slim as build
