@@ -1,4 +1,4 @@
-# 8 Deployment - 13. Provide: 
+# 8 Deployment - 13. Provide: This start from the ./run.sh file 
 # Analysis artifacts that arise from the professional provision should be carried over into deployment in a suitable form. 
 # Write your project into a Dockerfile and build it. This way, users can easily pull the application from any environment and test it locally. 
 # This approach not only ensures the applicability of your project in a variety of environments, but also makes it easier for users to use and test your project.
@@ -19,11 +19,11 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
-COPY package.json /usr/src/app/package.json
+COPY ./frontend/package.json /usr/src/app/package.json
 RUN npm install
 
 # add app
-COPY . /usr/src/app
+COPY ./frontend /usr/src/app
 
 # build project
 RUN ng build
@@ -33,7 +33,7 @@ FROM nginx:alpine
 
 COPY --from=build /usr/src/app/dist/frontend /usr/share/nginx/html
 
-COPY ./deploy/config/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./frontend/deploy/config/nginx.conf /etc/nginx/conf.d/default.conf
 
 # prod port
 EXPOSE 4200

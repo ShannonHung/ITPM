@@ -29,7 +29,7 @@ def loadData(model_id: None):
         percentiles_array = [50]
         labels = ['Level 1', 'Level 2']
     elif model_id == 3:
-        percentiles_array = [25, 75]
+        percentiles_array = [25, 50]
         labels = ['Level 1', 'Level 2', 'Level 3']
     else:
         percentiles_array = [25, 50, 75]
@@ -85,21 +85,19 @@ api.add_resource(Hello, '/')
 class DatasetConverter(Dataset):
 
     # 初始化函數，用於載入和預處理數據
-    def __init__(self, data, transform=None):
+    def __init__(self, data, result_size=None):
+        self.output_size = result_size * (-1)
+        print("output_size =>", self.output_size)
         # 創建 MinMaxScaler 和 OneHotEncoder 來進行數據預處理
         minmax_scaler = MinMaxScaler()
         onehot_enc = OneHotEncoder()
 
         # 將數據分為類別特徵、數值特徵和標籤
         categorical_features = data[data.select_dtypes(include=['object']).columns].drop('salary_level', axis=1)
-        categorical_columns = data.select_dtypes(include=['object']).columns
-        print(f'categorical_features=${categorical_columns}')
-
         numerical_features = data[data.select_dtypes(exclude=['object']).columns]
-        numerical_columns = data.select_dtypes(exclude=['object']).columns
-        print(f'numerical_features=${numerical_columns}')
-        
         label_features = data[['salary_level']]
+        print(data['salary_level'].value_counts())
+        print("data.dtypes =>", data.dtypes)
 
         # 對數值特徵進行歸一化（MinMax 歸一化）
         numerical_features_arr = minmax_scaler.fit_transform(numerical_features)
@@ -114,7 +112,7 @@ class DatasetConverter(Dataset):
         combined_features = pd.DataFrame(data=numerical_features_arr, columns=numerical_features.columns)
         combined_features = pd.concat([combined_features, pd.DataFrame(data=categorical_features_arr)], axis=1)
         combined_features = pd.concat([combined_features, pd.DataFrame(data=label_features)], axis=1).reset_index(drop=True)
-
+        print("combined_features Shape:", combined_features.shape)
         self.data = combined_features
 
     # 返回數據集的長度
@@ -125,9 +123,10 @@ class DatasetConverter(Dataset):
     def __getitem__(self, idx):
         # 獲取在 self.data DataFrame 中的第 idx 行的數據
         sample = self.data.iloc[idx] 
+        print("self.output_size =>", self.output_size)
         # 將一個數據結構轉換為 PyTorch 張量 並指定這個张量的數據類型為浮點數（float）
-        features = torch.FloatTensor(sample[:-4])
-        label = torch.FloatTensor(sample[-4:])
+        features = torch.FloatTensor(sample[:self.output_size])
+        label = torch.FloatTensor(sample[self.output_size:])
         return features, label
 
     # 返回整個數據集的 DataFrame
@@ -138,11 +137,11 @@ class DatasetConverter(Dataset):
 # %%
 # Step 3: Create a neural network model
 class SalaryPredictorModel(nn.Module):
-    def __init__(self, input_size):
+    def __init__(self, input_size, output_size):
         super(SalaryPredictorModel, self).__init__()
         self.layer1 = nn.Linear(input_size, 64)
         self.layer2 = nn.Linear(64, 32)
-        self.output_layer = nn.Linear(32, 4)
+        self.output_layer = nn.Linear(32, output_size)
     
     def forward(self, x):
         x = torch.relu(self.layer1(x))
@@ -155,26 +154,27 @@ class SalaryPredictorModel(nn.Module):
 def prediction(data, model_id):
     default_path = './data/salary_pred.pt'
     feature_size = 174
+    result_size = int(model_id)
     model_id_num = str(model_id)
 
     # load the model from disk
     if model_id_num is None:
-        pred_model = SalaryPredictorModel(feature_size) 
+        pred_model = SalaryPredictorModel(feature_size, result_size) 
         pred_model.load_state_dict(torch.load(default_path))
     else:
+        result_size = int(model_id)
         # if 3: 173, 4: 174, 2: 172 
         print('./data/salary_pred_'+model_id+'L.pt')
-        feature_size = feature_size - (4 - int(model_id))
         print('feature_size = ',feature_size)
 
-        pred_model = SalaryPredictorModel(feature_size)
+        pred_model = SalaryPredictorModel(feature_size, result_size)
         pred_model.load_state_dict(torch.load('./data/salary_pred_'+model_id+'L.pt'))
         
 
     # predict the salary level of the new data
     with torch.no_grad():
         # get the last row of the data
-        tensor_data = DatasetConverter(data).__getitem__(-1)
+        tensor_data = DatasetConverter(data,result_size).__getitem__(-1)
         input = tensor_data[0]
         output = pred_model(input)
         print(f'output = ${output}')
@@ -194,7 +194,6 @@ class SalaryPredictor(Resource):
 
         # predict the salary level of the new data
         pred = prediction(data, model_id)
-        
         # return the result 
         return {'level': pred}
     

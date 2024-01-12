@@ -27,10 +27,10 @@ IT Project Management - Final Project
 
 Please run the following command to build the image and run the container.
 ```bash
-docker pull shannonhung/itpm-frontend:1.0.0
-docker pull shannonhung/salary-prediction:1.0.0
-docker run -d -p 4200:4200 shannonhung/itpm-frontend:1.0.0
-docker run -d -p 5001:5001 shannonhung/salary-prediction:1.0.0
+docker pull shannonhung/itpm-frontend:latest
+docker pull shannonhung/salary-prediction:latest
+docker run -d -p 4200:4200 shannonhung/itpm-frontend:latest
+docker run -d -p 5001:5001 shannonhung/salary-prediction:latest
 ```
 
 Open your browser and go to `http://localhost:4200/` to see the frontend.
