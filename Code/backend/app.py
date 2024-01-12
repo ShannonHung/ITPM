@@ -23,12 +23,20 @@ api = Api(app)
 df = pd.read_csv('./data/ds_salaries_cleaned.csv')
 # calculate the percentiles
 
-def loadData():
-    
-    percentiles = np.percentile(df['salary_in_usd'], [25, 50, 75])  # 25th, 50th, 75th 分位數
+def loadData(model_id: None):
+    model_id = int(model_id)
+    if model_id == 2:
+        percentiles_array = [50]
+        labels = ['Level 1', 'Level 2']
+    elif model_id == 3:
+        percentiles_array = [25, 75]
+        labels = ['Level 1', 'Level 2', 'Level 3']
+    else:
+        percentiles_array = [25, 50, 75]
+        labels = ['Level 1', 'Level 2', 'Level 3', 'Level 4']
+
+    percentiles = np.percentile(df['salary_in_usd'], percentiles_array)  # 25th, 50th, 75th 分位數
     print(percentiles)
-    # define the labels of saraly levels 
-    labels = ['Level 1', 'Level 2', 'Level 3', 'Level 4']
 
     # print the meaning of label 
     for i in range(len(labels)):
@@ -144,11 +152,25 @@ class SalaryPredictorModel(nn.Module):
 
 
 # %%
-def prediction(data):
+def prediction(data, model_id):
+    default_path = './data/salary_pred.pt'
+    feature_size = 174
+    model_id_num = str(model_id)
+
     # load the model from disk
-    pred_model = SalaryPredictorModel(174)
-    pred_model.load_state_dict(torch.load('./data/salary_pred.pt'))
-    print(pred_model)
+    if model_id_num is None:
+        pred_model = SalaryPredictorModel(feature_size) 
+        pred_model.load_state_dict(torch.load(default_path))
+    else:
+        # if 3: 173, 4: 174, 2: 172 
+        print('./data/salary_pred_'+model_id+'L.pt')
+        feature_size = feature_size - (4 - int(model_id))
+        print('feature_size = ',feature_size)
+
+        pred_model = SalaryPredictorModel(feature_size)
+        pred_model.load_state_dict(torch.load('./data/salary_pred_'+model_id+'L.pt'))
+        
+
     # predict the salary level of the new data
     with torch.no_grad():
         # get the last row of the data
@@ -161,29 +183,22 @@ def prediction(data):
 
 # %%
 class SalaryPredictor(Resource):
-    def post(self):
+    def post(self, model_id=None):
+
         # get request data 
         json_data = request.get_json(force=True)
 
         # load the data 
-        data = loadData()
+        data = loadData(model_id)
         data = pd.concat([data, pd.DataFrame([json_data])], ignore_index=True)
 
-        # load the model parameters
-        pred_model = SalaryPredictorModel(174)
-        pred_model.load_state_dict(torch.load('./data/salary_pred.pt'))
-
         # predict the salary level of the new data
-        with torch.no_grad():
-            tensor_data = DatasetConverter(data).__getitem__(-1)
-            input = tensor_data[0]
-            output = pred_model(input)
-            result = torch.argmax(output).item()
+        pred = prediction(data, model_id)
         
         # return the result 
-        return {'level': result}
+        return {'level': pred}
     
-api.add_resource(SalaryPredictor, '/predict')
+api.add_resource(SalaryPredictor, '/predict/<string:model_id>')
 
 
 # %%

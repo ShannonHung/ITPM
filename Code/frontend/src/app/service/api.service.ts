@@ -17,8 +17,8 @@ export class ApiService {
    * @param data
    * @returns
    */
-  getSalaryPredict(data: JobInput) {
+  getSalaryPredict(data: JobInput, model_id: string) {
     console.log('getSalaryPredict api called:', data);
-    return this.http.post(`${this.api}/predict`, data);
+    return this.http.post(`${this.api}/predict/${model_id}`, data);
   }
 }

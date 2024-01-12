@@ -8,6 +8,24 @@
 
   <nb-layout-column>
     <div class="content row" role="main">
+
+
+      <!-- Select Model -->
+      <div class="col-12">
+        <nb-card accent="success">
+          <nb-card-header>Please select the model base on the question you want to know ...</nb-card-header>
+          <nb-card-body>
+            <nb-radio-group [(ngModel)]="option">
+              <nb-radio *ngFor="let option of options" [value]="option.label">
+                {{ option.value }}
+              </nb-radio>
+            </nb-radio-group>
+          </nb-card-body>
+        </nb-card>
+
+      </div>
+
+      <!-- User Input -->
       <div class="col-8 row">
         <nb-card accent="info">
           <nb-card-header>Give the value for prediction</nb-card-header>
@@ -100,18 +118,46 @@
           </nb-card-body>
         </nb-card>
       </div>
+      <!-- Prediction -->
       <div class="col-4">
         <div class="col-12">
           <nb-card accent="warning">
             <nb-card-header>Prediction Result</nb-card-header>
             <nb-card-body>
-              <p class="bold" [ngClass]="{'text-danger': ans==1}">Level 1: 0.00 - 95000.00 USD</p>
-              <p class="bold" [ngClass]="{'text-danger': ans==2}">Level 2: 95000.00 - 135000.00 USD</p>
-              <p class="bold" [ngClass]="{'text-danger': ans==3}">Level 3: 120000.00 - 175000.00 USD</p>
-              <p class="bold" [ngClass]="{'text-danger': ans==4}">Level 4: > 175000.00 USD</p>
+              <!-- level1, level2, level3, level4 -->
+              <ng-container *ngIf="option === '4'">
+                <p class="bold" [ngClass]="{'text-danger': ans === 1}">Level 1 (< 25th): 0.00 - 95000.00 USD</p>
+                    <p class="bold" [ngClass]="{'text-danger': ans === 2}">Level 2 (25-50th): 95000.00 - 135000.00 USD
+                    </p>
+                    <p class="bold" [ngClass]="{'text-danger': ans === 3}">Level 3 (50-75th): 120000.00 - 175000.00 USD
+                    </p>
+                    <p class="bold" [ngClass]="{'text-danger': ans === 4}">Level 4 (> 75th): > 175000.00 USD</p>
+                    <button nbButton fullWidth status="warning" [disabled]="ans==-1">{{ ans==-1 ? 'Unkown' : 'Level' +
+                      ans}}</button>
+              </ng-container>
 
-              <button nbButton fullWidth status="warning" [disabled]="ans==-1">{{ ans==-1 ? 'Unkown' : 'Level' +
-                ans}}</button>
+              <!-- level1, level2, level3-->
+              <ng-container *ngIf="option === '3'">
+                <p class="bold" [ngClass]="{'text-danger': ans === 1}">Level 1 (< 25th): 0.00 - 95000.00 USD</p>
+                    <p class="bold" [ngClass]="{'text-danger': ans === 2}">Level 2 (25-50th): 95000.00 - 135000.00 USD
+                    </p>
+                    <p class="bold" [ngClass]="{'text-danger': ans === 3}">Level 3 (> 50th): > 135000.00 USD</p>
+                    <button nbButton fullWidth status="warning" [disabled]="ans==-1">{{ ans==-1 ? 'Unkown' : 'Level' +
+                      ans}}</button>
+              </ng-container>
+
+              <!-- level1, level2, -->
+              <ng-container *ngIf="option === '2'">
+                <p>Is your salary will exceed 135,000 USD per year?</p>
+                <p class="bold" [ngClass]="{'text-danger': ans === 1}">No</p>
+                <p class="bold" [ngClass]="{'text-danger': ans === 2}">Yes</p>
+
+                <button nbButton fullWidth status="warning" [disabled]="ans==-1">{{ ans==-1 ? 'Unkown' : (ans==1? 'No':
+                  'Yes')}}</button>
+              </ng-container>
+
+
+
             </nb-card-body>
           </nb-card>
         </div>

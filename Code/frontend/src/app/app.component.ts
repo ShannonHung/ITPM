@@ -185,7 +185,24 @@ export class AppComponent {
     'LU',
     'MT',
   ];
-
+  options = [
+    {
+      value:
+        'Model1 (Acc:73%): Predict whether your salary will exceed 135,000 USD per year?',
+      label: '2',
+    },
+    {
+      value:
+        'Model2 (Acc:63%): Predict where your salary will fall? (25th, 50th percentile)',
+      label: '3',
+    },
+    {
+      value:
+        'Model3 (Acc:50%): Predict where your salary will fall? (25th, 50th, 75th percentile)',
+      label: '4',
+    },
+  ];
+  option = '4';
   sizes = ['L', 'S', 'M'];
   isAnalysis = false;
   ans = -1;
@@ -199,9 +216,9 @@ export class AppComponent {
   }
 
   onClickBtn() {
-    // this.isAnalysis = true;
-    console.log('onClickBtn', this.jobData);
-    this.api.getSalaryPredict(this.jobData).subscribe((res) => {
+    this.isAnalysis = true;
+    console.log('onClickBtn', this.jobData, this.option);
+    this.api.getSalaryPredict(this.jobData, this.option).subscribe((res) => {
       this.toastrService.success(
         'Success',
         'Salary Prediction' + (res.level + 1)
